@@ -11,13 +11,13 @@ if os.path.exists(weights_path + '.zip'):
 else:
     training_env = gym.make(env_id)
     model = sb3_contrib.QRDQN('CnnPolicy', training_env, verbose=1, buffer_size=int(1e+4))
-    model.learn(total_timesteps=1e+5)
+    model.learn(total_timesteps=1e+6, progress_bar=True)
     model.save(weights_path)
 
 evaluation_env = gym.make(env_id, render_mode='human')
 obs, _ = evaluation_env.reset()
 for _ in range(1000):
-    action, _ = model.predict(obs, deterministic=True)
+    action, _ = model.predict(obs, deterministic=True, progress_bar=True)
     obs, reward, is_terminated, is_truncated, info = evaluation_env.step(action)
     evaluation_env.render()
     if is_terminated or is_truncated:

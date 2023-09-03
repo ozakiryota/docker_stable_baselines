@@ -11,7 +11,7 @@ if os.path.exists(weights_path + '.zip'):
 else:
     training_env = gym.make(env_id)
     model = stable_baselines3.DQN('MlpPolicy', training_env, verbose=1)
-    model.learn(total_timesteps=1e+5)
+    model.learn(total_timesteps=1e+5, progress_bar=True)
     model.save(weights_path)
 
 evaluation_env = gym.make(env_id, render_mode='human')
